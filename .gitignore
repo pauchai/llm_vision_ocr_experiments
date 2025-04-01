@@ -1,0 +1,53 @@
+# Сгенерируй файл .gitignore для проекта на Python
+# Содержимое файла .gitignore
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+*.egg-info/
+*.egg
+*.env
+*.venv
+*.DS_Store
+*.idea/
+*.vscode/
+*.log
+*.coverage
+*.mypy_cache/
+*.pytest_cache/
+*.tox/
+*.coverage.*
+*.hypothesis/
+*.pytest/
+*.coverage.*
+*.hypothesis/
+*.pytest/
+# Pytest
+*.cover
+*.coverage
+*.hypothesis/
+*.pytest_cache/
+# Jupyter Notebook
+.ipynb_checkpoints
+# PyCharm
+.idea/
+# VS Code
+.vscode/
+# Pyre type checker
+.pyre/
+# mypy
+.mypy_cache/
+# pytype
+.pytype/
+# pyre
+.pyre/
+# pytype
+.pytype/
+# pyright
+# pyright
+# pyrightconfig.json
+# pyrightconfig.json
+# pyrightconfig.json
