@@ -1,0 +1,45 @@
+version: '3'
+services:
+  ollama:
+    image: ollama/ollama:rocm  # Использование образа с поддержкой ROCm
+    container_name: ollama
+    #environment:
+    #  - HSA_OVERRIDE_GFX_VERSION=10.3.0  # Замените на вашу версию GPU
+    #  - HIP_VISIBLE_DEVICES=0  # Индекс вашего GPU
+    devices:
+      - /dev/kfd
+      - /dev/dri
+    #security_opt:
+    #  - seccomp:unconfined
+    #cap_add:
+    #  - SYS_PTRACE
+    #ipc: host
+    #group_add:
+    #  - video
+    volumes:
+      - ollama:/root/.ollama
+    ports:
+      - "11434:11434"
+    networks:
+      - ollama-net
+
+  api:
+    build: .
+    ports:
+      - "7860:7860"
+    environment:
+      - OLLAMA_BASE_URL=http://ollama:11434/api/chat
+      - OLLAMA_MODEL_URL=http://ollama:11434/api/tags
+    depends_on:
+      - ollama
+    networks:
+      - ollama-net
+    volumes:
+      - ./app:/app
+
+volumes:
+  ollama:
+
+networks:
+  ollama-net:
+    driver: bridge
