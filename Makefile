@@ -1,14 +1,22 @@
+DOCKER_COMPOSE_FILE := docker-compose.yml
+
 up:
-	docker compose up -d ollama api
+	@echo "Запуск Docker Compose с файлом $(DOCKER_COMPOSE_FILE)"
+
+	docker compose -f $(DOCKER_COMPOSE_FILE) up -d ollama api
 
 build:
-	docker compose build ollama api
+	@echo "Сборка Docker Compose с файлом $(DOCKER_COMPOSE_FILE)"
+	docker compose -f $(DOCKER_COMPOSE_FILE) build ollama api
 
 down:
-	docker compose down
+	@echo "Остановка Docker Compose с файлом $(DOCKER_COMPOSE_FILE)"
+	docker compose -f $(DOCKER_COMPOSE_FILE) down
 
 logs:
-	docker compose logs
+	@echo "Вывод логов Docker Compose с файлом $(DOCKER_COMPOSE_FILE)"
+	docker compose -f $(DOCKER_COMPOSE_FILE) logs
 
 shell-ollama:
-	docker compose exec ollama sh
+	@echo "Запуск оболочки в контейнере ollama"
+	docker compose -f $(DOCKER_COMPOSE_FILE) exec ollama sh
