@@ -58,3 +58,10 @@ Install the NVIDIA Container Toolkit packages
 ```bash
 sudo apt-get install -y nvidia-container-toolkit
 ```
+
+Configure Docker to use Nvidia driver
+
+```bash
+sudo nvidia-ctk runtime configure --runtime=docker
+sudo systemctl restart docker
+```
