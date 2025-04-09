@@ -22,3 +22,6 @@ docker compose ollama pull gemma3:1b
 docker compose ollama pull gemma3:4b
 docker compose ollama pull gemma3:12b
 ```
+
+
+Проверить открытость порта  7600 на firewall
