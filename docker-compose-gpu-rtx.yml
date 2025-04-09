@@ -1,0 +1,41 @@
+services:
+  ollama:
+    image: ollama/ollama
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    volumes:
+      - ollama:/root/.ollama
+    #  - /home/pauko/Downloads:/mnt/downloads
+
+    ports:
+      - "11435:11434"
+    networks:
+      - ollama-net
+    env_file:
+      - .env  # Замените на ваш реальный токен Hugging Face
+
+  api:
+    build: .
+    ports:
+      - "7860:7860"
+    environment:
+      - OLLAMA_BASE_URL=http://ollama:11434/api/chat
+      - OLLAMA_MODEL_URL=http://ollama:11434/api/tags
+    depends_on:
+      - ollama
+    networks:
+      - ollama-net
+    volumes:
+      - ./app:/app
+
+volumes:
+  ollama:
+
+networks:
+  ollama-net:
+    driver: bridge
