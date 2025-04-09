@@ -1,0 +1,10 @@
+# Создание requirements.txt для проекта
+# Основные зависимости для работы с Gradio и Uvicorn
+
+uvicorn
+
+gradio
+ollama
+openai
+python-dotenv
+opencv-python
