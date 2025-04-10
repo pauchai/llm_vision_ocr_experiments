@@ -32,9 +32,9 @@ def encode_image(image: Image.Image) -> str:
     return base64.b64encode(buffered.getvalue()).decode("utf-8")
 
 
-def chat_with_ollama(user_prompt, image, selected_model):
+def chat_with_ollama(system_prompt, user_prompt, image, selected_model):
     messages = [
-        {"role": "system", "content": SYSTEM_PROMPT},
+        {"role": "system", "content": system_prompt},
         {"role": "user", "content": user_prompt}
     ]
 
@@ -65,9 +65,11 @@ available_models = get_available_models()
 iface = gr.Interface(
     fn=chat_with_ollama,
     inputs=[
+        gr.Textbox(label="Системный промпт", value=SYSTEM_PROMPT, placeholder="Введите системный промпт (необязательно)"),
         gr.Textbox(label="Ваш запрос"),
         gr.Image(type="pil", label="Изображение (необязательно)"),
-        gr.Dropdown(choices=available_models, value=available_models[0], label="Выберите модель")
+        gr.Dropdown(choices=available_models, value=available_models[0], label="Выберите модель"),
+        
     ],
     outputs="text",
     title="Чат с Ollama",
