@@ -68,7 +68,7 @@ iface = gr.Interface(
         gr.Textbox(label="Системный промпт", value=SYSTEM_PROMPT, placeholder="Введите системный промпт (необязательно)"),
         gr.Textbox(label="Ваш запрос"),
         gr.Image(type="pil", label="Изображение (необязательно)"),
-        gr.Dropdown(choices=available_models, value=available_models[0], label="Выберите модель"),
+        gr.Dropdown(choices=available_models,  label="Выберите модель"),
         
     ],
     outputs="text",
