@@ -1,5 +1,6 @@
 services:
   ollama:
+    container_name: ollama-container
     image: ollama/ollama
     volumes:
       - ollama:/root/.ollama

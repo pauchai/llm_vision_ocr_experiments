@@ -1,4 +1,4 @@
-DOCKER_COMPOSE_FILE := docker-compose.yml
+DOCKER_COMPOSE_FILE := docker-compose-gpu-rtx.yml
 
 up:
 	@echo "Запуск Docker Compose с файлом $(DOCKER_COMPOSE_FILE)"

@@ -1,6 +1,7 @@
 services:
   ollama:
     image: ollama/ollama
+    restart: unless-stopped
     deploy:
       resources:
         reservations:
@@ -21,6 +22,7 @@ services:
 
   api:
     build: .
+    restart: unless-stopped
     ports:
       - "7860:7860"
     environment:
