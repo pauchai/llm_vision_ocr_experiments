@@ -1,30 +1,65 @@
-Информация по установке ollama (в том числе на gpu сервере)
-https://hub.docker.com/r/ollama/ollama
+
+## Краткая инструкция по установке
+
+Для начала выполнить инструкции из раздела # Nvidia GPU на хостинге
+
+
+Загружаем код
+```bash
+mkdir  /app
+cd /app
+git clone https://github.com/pauchai/llm_vision_ocr_experiments.git .
+
+``` 
+
+Создаем контейнеры и запускаем их
+```bash
+make build
+make up
+
+```
+
+
+Список моделей
+```bash
+docker compose exec ollama ollama list
+```
+
+Загрузка моделей
+```bash
+docker compose exec ollama ollama pull gemma3:1b
+docker compose exec ollama ollama pull gemma3:4b
+docker compose exec ollama ollama pull gemma3:12b
+
+```
+после чего нужно сделать перезапуск контейнеров
+```bash
+make down
+make up
+```
+
+
+
 
 
 ## Некоторые полезные команды
 ```bash
-make build
-make up
-make down
+make build # создание контейнера приложения
+make up # поднятие всех контейнеров
+make down # остановка всех контейнеров
 ```
 
-Работа с Ollama
-
-Список моделей
-```bash
-docker compose ollama ollama list
-```
-
-Загрузка моделей 
-```bash
-docker compose ollama pull gemma3:1b
-docker compose ollama pull gemma3:4b
-docker compose ollama pull gemma3:12b
-```
 
 
 Проверить открытость порта  7600 на firewall
+
+
+
+
+Информация по установке ollama (в том числе на gpu сервере)
+https://hub.docker.com/r/ollama/ollama
+
+
 
 ## AMD GPU
 To run Ollama using Docker with AMD GPUs, use the rocm tag and the following command:

@@ -32,7 +32,7 @@ def encode_image(image: Image.Image) -> str:
     return base64.b64encode(buffered.getvalue()).decode("utf-8")
 
 
-def chat_with_ollama(system_prompt, user_prompt, image, selected_model):
+def chat_with_ollama(system_prompt, user_prompt, image, selected_model, temperator=0.2):
     messages = [
         {"role": "system", "content": system_prompt},
         {"role": "user", "content": user_prompt}
@@ -45,7 +45,8 @@ def chat_with_ollama(system_prompt, user_prompt, image, selected_model):
     ollama_args = {
         "model": selected_model,
         "messages": messages,
-        "stream": False
+        "stream": False,
+        "temperature": temperator,
     }
 
     start_time = time.time()  # Start timing
@@ -68,7 +69,9 @@ iface = gr.Interface(
         gr.Textbox(label="Системный промпт", value=SYSTEM_PROMPT, placeholder="Введите системный промпт (необязательно)"),
         gr.Textbox(label="Ваш запрос"),
         gr.Image(type="pil", label="Изображение (необязательно)"),
-        gr.Dropdown(choices=available_models, value=available_models[0], label="Выберите модель"),
+        gr.Dropdown(choices=available_models,  label="Выберите модель"),
+        gr.Slider(minimum=0, maximum=1, step=0.05, value=0.2, label="Temperature")
+
         
     ],
     outputs="text",

@@ -18,7 +18,8 @@ services:
     networks:
       - ollama-net
     env_file:
-      - .env  # Замените на ваш реальный токен Hugging Face
+      - .env 
+
 
   api:
     build: .

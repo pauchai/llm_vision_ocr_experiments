@@ -19,4 +19,4 @@ logs:
 
 shell-ollama:
 	@echo "Запуск оболочки в контейнере ollama"
-	docker compose -f $(DOCKER_COMPOSE_FILE) exec ollama sh
+	docker compose -f $(DOCKER_COMPOSE_FILE) exec ollama /bin/bash
