@@ -47,6 +47,7 @@ def chat_with_ollama(system_prompt, user_prompt, image, selected_model, temperat
         "messages": messages,
         "stream": False,
         "temperature": temperator,
+        "max_tokens": 200
     }
 
     start_time = time.time()  # Start timing
