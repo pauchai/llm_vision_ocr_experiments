@@ -52,3 +52,4 @@ __pycache__/
 # pyrightconfig.json
 # pyrightconfig.json
 .gradio
+names
