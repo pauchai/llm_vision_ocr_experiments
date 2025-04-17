@@ -28,5 +28,5 @@ logs:
 	docker compose -f $(DOCKER_COMPOSE_FILE) -f $(DOCKER_COMPOSE_OVERRIDE_FILE) logs
 
 shell-ollama:
-	@echo "Запуск оболочки в контейнере ollama"
-	docker compose -f -f $(DOCKER_COMPOSE_FILE) -f $(DOCKER_COMPOSE_OVERRIDE_FILE) exec ollama /bin/bash
+	@echo "Запуск оболочки в контейнере ollama $(DOCKER_DEPLOYMENT)"
+	docker compose -f $(DOCKER_COMPOSE_FILE) -f $(DOCKER_COMPOSE_OVERRIDE_FILE) exec ollama /bin/bash
