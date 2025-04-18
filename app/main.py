@@ -56,7 +56,7 @@ def chat_with_ollama(system_prompt, user_prompt, image, selected_model, temperat
 
     if response.status_code == 200:
         result = response.json()["message"]["content"]
-        return f"{result}\n\nВремя запроса: {elapsed_time:.2f} секунд"
+        return f"{result}"
     else:
         return f"Ошибка: {response.status_code}\n{response.text}\n\nВремя запроса: {elapsed_time:.2f} секунд"
 

@@ -53,3 +53,4 @@ __pycache__/
 # pyrightconfig.json
 .gradio
 names
+notebooks/results.tsv

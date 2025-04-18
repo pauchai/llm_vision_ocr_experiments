@@ -101,3 +101,8 @@ sudo nvidia-ctk runtime configure --runtime=docker
 sudo systemctl restart docker
 ```
 
+Веб морда
+176.114.66.237:7600
+
+176.114.66.237:8888
+
