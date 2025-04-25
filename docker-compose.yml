@@ -2,6 +2,7 @@ services:
   ollama:
     container_name: ollama-container
     image: ollama/ollama
+    restart: unless-stopped
     volumes:
       - ollama:/root/.ollama
     #  - /home/pauko/Downloads:/mnt/downloads
