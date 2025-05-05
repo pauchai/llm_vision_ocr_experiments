@@ -1,0 +1,50 @@
+FROM nvidia/cuda:12.1.1-cudnn8-devel-ubuntu22.04
+
+# 1. Установим базовые утилиты и Python
+RUN apt-get update && apt-get install -y \
+    git \
+    wget \
+    curl \
+    unzip \
+    python3.10 \
+    python3.10-venv \
+    python3-pip \
+    build-essential \
+    libglib2.0-0 \
+    libsm6 \
+    libxrender1 \
+    libxext6 \
+    && ln -sf python3.10 /usr/bin/python
+
+# 2. Обновим pip и установим torch
+RUN pip install --upgrade pip
+
+# PyTorch + CUDA (замени версию под нужную тебе)
+RUN pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+
+# 3. Установим необходимые Python-пакеты
+RUN pip install \
+    transformers \
+    peft \
+    accelerate \
+    unsloth \
+    sentencepiece \
+    bitsandbytes \
+    matplotlib \
+    scipy \
+    scikit-learn \
+    opencv-python \
+    Pillow
+
+# 4. (опционально) установка GGUF тулов, если будут поддерживаться
+# RUN pip install llama-cpp-python
+
+# 5. Рабочая директория
+WORKDIR /qwen
+
+# 6. Копирование кода (если нужно)
+COPY app /app
+
+# 7. Команда по умолчанию
+#CMD ["python3"]
+# CMD ["tail", "-f", "/dev/null"]

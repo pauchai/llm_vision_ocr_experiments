@@ -13,7 +13,14 @@ services:
       - ollama-net
     env_file:
       - .env  # Замените на ваш реальный токен Hugging Face
-    
+  qwen_api:
+    #container_name: qwen-api-container
+    build: 
+      context: .
+      dockerfile: Dockerfile_qwen
+    restart: unless-stopped
+    networks:
+      - ollama-net
   api:
     build: .
     ports:
