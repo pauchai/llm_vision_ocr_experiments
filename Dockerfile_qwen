@@ -38,6 +38,28 @@ RUN pip install \
     notebook \
     jupyterlab 
 
+
+# !pip install --no-deps bitsandbytes accelerate xformers==0.0.29.post3 peft trl==0.15.2 triton cut_cross_entropy unsloth_zoo
+#!pip install sentencepiece protobuf datasets huggingface_hub hf_transfer
+#!pip install --no-deps unsloth
+RUN pip install -U \
+    unsloth \
+    unsloth_zoo \
+    protobuf \
+    datasets \
+    xformers==0.0.29.post3 \
+    cut_cross_entropy \
+    trl==0.15.2 \
+    triton \
+    accelerate \
+    bitsandbytes \
+    peft \
+    huggingface_hub \
+    hf_transfer \
+    sentencepiece 
+
+
+
 # 4. (опционально) установка GGUF тулов, если будут поддерживаться
 # RUN pip install llama-cpp-python
 
