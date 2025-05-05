@@ -34,7 +34,9 @@ RUN pip install \
     scipy \
     scikit-learn \
     opencv-python \
-    Pillow
+    Pillow \
+    notebook \
+    jupyterlab 
 
 # 4. (опционально) установка GGUF тулов, если будут поддерживаться
 # RUN pip install llama-cpp-python
@@ -43,8 +45,8 @@ RUN pip install \
 WORKDIR /qwen
 
 # 6. Копирование кода (если нужно)
-COPY app /app
+COPY qwen /qwen
 
 # 7. Команда по умолчанию
 #CMD ["python3"]
-# CMD ["tail", "-f", "/dev/null"]
+CMD ["tail", "-f", "/dev/null"]

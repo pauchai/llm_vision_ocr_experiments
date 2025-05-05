@@ -21,6 +21,10 @@ services:
     restart: unless-stopped
     networks:
       - ollama-net
+    volumes:
+      - ./qwen:/qwen
+    ports:
+      - "8889:8888"
   api:
     build: .
     ports:
