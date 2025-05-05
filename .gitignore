@@ -54,3 +54,4 @@ __pycache__/
 .gradio
 names
 notebooks/results.tsv
+qwen/models
