@@ -67,9 +67,15 @@ RUN pip install \
 # 5. Рабочая директория
 WORKDIR /qwen
 
-# 6. Копирование кода (если нужно)
-COPY qwen /qwen
 
+
+COPY qwen /qwen
+RUN pip install -r requirements.txt
+# 6. Копирование кода (если нужно)
 # 7. Команда по умолчанию
-#CMD ["python3"]
-CMD ["tail", "-f", "/dev/null"]
+#CMD ["python","main.py"]
+#CMD ["jupyter","lab", "--ip=0.0.0.0","--port=8888", "--no-browser", "--allow-root"]
+#CMD ["bash", "-c", "python3 main.py & jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root --NotebookApp.token='bigdaddy'"]
+CMD bash -c "jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root --NotebookApp.token='bigdaddy' & python main.py"
+
+#CMD ["tail", "-f", "/dev/null"]

@@ -8,6 +8,7 @@ import os
 from unsloth import FastVisionModel # FastLanguageModel for LLMs
 import torch
 from pathlib import Path
+import gc
 
 base_data_dir = Path("/data")
 
@@ -16,8 +17,8 @@ model_mapper = {
       "Qwen2_5-3b_finetuned":str(base_data_dir / "models/qwen2_5_3b_outputs"),
       "Qwen2_5-7b_finetuned":str(base_data_dir / "models/qwen2_5_ 7b_outputs"),
       
-      "Qwen2-vl-7b_finetuned":str(base_data_dir / "models/qwen2_VL_7b"),
-      "Qwen2_5-3b":"unsloth/Qwen2.5-VL-3B",
+      "Qwen2-vl-7b_finetuned":str(base_data_dir / "models/qwen2_VL_7b/lora_model"),
+      "Qwen2_5-3b":"unsloth/Qwen2.5-VL-3B-Instruct",
       "Qwen2_5-7b":"unsloth/Qwen2.5-VL-7B-Instruct",
       "Qwen2-vl-7b":"unsloth/Qwen2-VL-7B-Instruct"   
 }
@@ -34,16 +35,25 @@ loaded_models = {}
 def get_available_models():
     return model_mapper.keys()
 
+def unload_model(model):
+    del model
+    gc.collect()
+    torch.cuda.empty_cache()
+
 def load_model(model_name):
-    if model_name in loaded_models:
-        return loaded_models[model_name]
-    
+    # Выгружаем все предыдущие модели, если они не используются
+    for name, (model, _) in loaded_models.items():
+        if name != model_name:
+            unload_model(model)
+    loaded_models.clear()
+
+    # Загружаем модель
     model, tokenizer = FastVisionModel.from_pretrained(
         model_mapper[model_name],
         load_in_4bit=True,
         use_gradient_checkpointing="unsloth",
     )
-    FastVisionModel.for_inference(model)  # Включаем режим инференса один раз при загрузке
+    FastVisionModel.for_inference(model)
     loaded_models[model_name] = (model, tokenizer)
     return model, tokenizer
 
@@ -107,7 +117,7 @@ iface = gr.Interface(
         
     ],
     outputs="text",
-    title="Чат с Ollama",
+    title="Чат с qwenn",
     description="Выберите модель Ollama, введите запрос и при необходимости прикрепите изображение",
    # show_flag=False  # Отключаем кнопку флага
 

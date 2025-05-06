@@ -20,6 +20,7 @@ USER_PROMPT = '''
 '''
 
 corrector = PhraseCorrectorNgrams(
+    words_file="/data/words.txt",
     score_cutoff=80,
     min_len=3,
     max_ngram=3
