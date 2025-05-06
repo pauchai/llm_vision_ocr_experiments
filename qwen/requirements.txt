@@ -1,0 +1,8 @@
+uvicorn
+
+gradio
+ollama
+openai
+python-dotenv
+opencv-python
+rapidfuzz

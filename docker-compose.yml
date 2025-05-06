@@ -23,6 +23,8 @@ services:
       - ollama-net
     volumes:
       - ./qwen:/qwen
+      - ./data:/data
+
     ports:
       - "8889:8888"
   api:
@@ -45,7 +47,7 @@ services:
         - "8888:8888"
       volumes:
         - ./notebooks:/home/jovyan/work
-        - ./names:/home/jovyan/names
+        - ./data:/home/jovyan/data
         #- ./_data:/home/jovayan/_data
         - ./requirements.txt:/tmp/requirements.txt
       networks:

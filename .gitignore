@@ -52,6 +52,7 @@ __pycache__/
 # pyrightconfig.json
 # pyrightconfig.json
 .gradio
-names
+data
 notebooks/results.tsv
 qwen/models
+qwen/unsloth_compiled_cache/
