@@ -13,8 +13,13 @@ base_data_dir = Path("/data")
 
 model_mapper = {
   
-      "Qwen2_5-3b_finetuned":base_data_dir / "models/qwen2_5_3b_outputs",
-      "Qwen2_5-3b":"unsloth/Qwen2.5-VL-3B-Instruct"  
+      "Qwen2_5-3b_finetuned":str(base_data_dir / "models/qwen2_5_3b_outputs"),
+      "Qwen2_5-7b_finetuned":str(base_data_dir / "models/qwen2_5_ 7b_outputs"),
+      
+      "Qwen2-vl-7b_finetuned":str(base_data_dir / "models/qwen2_VL_7b"),
+      "Qwen2_5-3b":"unsloth/Qwen2.5-VL-3B",
+      "Qwen2_5-7b":"unsloth/Qwen2.5-VL-7B-Instruct",
+      "Qwen2-vl-7b":"unsloth/Qwen2-VL-7B-Instruct"   
 }
 
 SYSTEM_PROMPT = '''
@@ -24,21 +29,23 @@ SYSTEM_PROMPT = '''
 USER_PROMPT = '''
 Пожалуйста, извлеките весь текст на изображении и ничего больше без комментариев. 
 '''
+loaded_models = {}
 
 def get_available_models():
     return model_mapper.keys()
 
 def load_model(model_name):
+    if model_name in loaded_models:
+        return loaded_models[model_name]
     
-    return = FastVisionModel.from_pretrained(
-        model_mapper[model_name], # Model name
-        load_in_4bit = True, # Use 4bit to reduce memory use. False for 16bit LoRA.
-        use_gradient_checkpointing = "unsloth", # True or "unsloth" for long context
+    model, tokenizer = FastVisionModel.from_pretrained(
+        model_mapper[model_name],
+        load_in_4bit=True,
+        use_gradient_checkpointing="unsloth",
     )
-
-def process_ocr(image_path, model, temperature = 1.5):
-    return recognized_text, time_end - time_start
-
+    FastVisionModel.for_inference(model)  # Включаем режим инференса один раз при загрузке
+    loaded_models[model_name] = (model, tokenizer)
+    return model, tokenizer
 
 
 def chat_with_qwen(system_prompt, user_prompt, image:Image, selected_model, temperature=0.2):
