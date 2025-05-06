@@ -27,6 +27,7 @@ services:
 
     ports:
       - "8889:8888"
+      - "7861:7860"
   api:
     build: .
     ports:
@@ -40,6 +41,7 @@ services:
       - ollama-net
     volumes:
       - ./app:/app
+      - ./data:/data
   jupyter:
       image: jupyter/scipy-notebook
       container_name: jupyter-container
