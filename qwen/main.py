@@ -41,13 +41,17 @@ def unload_model(model):
     torch.cuda.empty_cache()
 
 def load_model(model_name):
-    # Выгружаем все предыдущие модели, если они не используются
+    # Если модель уже загружена — вернуть её
+    if model_name in loaded_models:
+        return loaded_models[model_name]
+
+    # Выгрузить другие модели
     for name, (model, _) in loaded_models.items():
         if name != model_name:
             unload_model(model)
     loaded_models.clear()
 
-    # Загружаем модель
+    # Загрузить модель
     model, tokenizer = FastVisionModel.from_pretrained(
         model_mapper[model_name],
         load_in_4bit=True,
@@ -56,7 +60,6 @@ def load_model(model_name):
     FastVisionModel.for_inference(model)
     loaded_models[model_name] = (model, tokenizer)
     return model, tokenizer
-
 
 def chat_with_qwen(system_prompt, user_prompt, image:Image, selected_model, temperature=0.2):
     model ,tokenizer = load_model(selected_model)
