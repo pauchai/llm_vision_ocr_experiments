@@ -48,7 +48,6 @@ class QwenProcessor:
 
     def process(self, system_prompt, user_prompt, image: Image, selected_model, temperature=0.2):
         model, tokenizer = self.load_model(selected_model)
-        FastVisionModel.for_inference(model)  # Enable for inference!
         messages = [
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": [
