@@ -120,5 +120,5 @@ sudo systemctl restart docker
 
 
 
-Эксперименты в колабе
-https://drive.google.com/drive/folders/1KRqRH0yMLRdaqg8wxcJYeLQ68vrfzhZj
+Эксперименты в колабе (нужен доступ)
+https://drive.google.com/drive/folders/1KRqRH0yMLRdaqg8wxcJYeLQ68vrfzhZj 
