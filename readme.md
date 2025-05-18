@@ -101,13 +101,13 @@ sudo nvidia-ctk runtime configure --runtime=docker
 sudo systemctl restart docker
 ```
 
-Веб морда api 
-- для ollama
+Веб морда и ноутбуки
+- Gradio для ollama (api включена)
     - 176.114.66.237:7860
-- для qwen
+- Gradio для qwen (api включена)
     - 176.114.66.237:7861
 
-- Массовые прогоны по api
+- Ноутбуки  с легкой средой без торча. Здесь проверяются модели по api, которые запущены в Gradio
     - 176.114.66.237:8888
 
 - Ноутбуки со средой qwen 
@@ -115,8 +115,10 @@ sudo systemctl restart docker
 
 
 
-- ollama api
+- ollama api.
     - http://176.114.66.237:11435/api/tags
-    
 
 
+
+Эксперименты в колабе
+https://drive.google.com/drive/folders/1KRqRH0yMLRdaqg8wxcJYeLQ68vrfzhZj
