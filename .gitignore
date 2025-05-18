@@ -47,10 +47,8 @@ __pycache__/
 # pytype
 .pytype/
 # pyright
-# pyright
 # pyrightconfig.json
-# pyrightconfig.json
-# pyrightconfig.json
+
 .gradio
 data
 notebooks/results.tsv

@@ -101,8 +101,22 @@ sudo nvidia-ctk runtime configure --runtime=docker
 sudo systemctl restart docker
 ```
 
-Веб морда
-176.114.66.237:7600
+Веб морда api 
+- для ollama
+    - 176.114.66.237:7860
+- для qwen
+    - 176.114.66.237:7861
 
-176.114.66.237:8888
+- Массовые прогоны по api
+    - 176.114.66.237:8888
+
+- Ноутбуки со средой qwen 
+    - 176.114.66.237:8881
+
+
+
+- ollama api
+    - http://176.114.66.237:11435/api/tags
+    
+
 
