@@ -47,6 +47,7 @@ services:
   jupyter:
       image: jupyter/scipy-notebook
       container_name: jupyter-container
+      restart: unless-stopped
       ports:
         - "8888:8888"
       volumes:

@@ -13,13 +13,13 @@ up:
 	@echo "Запуск  $(DOCKER_DEPLOYMENT)"
 
 	
-#docker compose -f $(DOCKER_COMPOSE_FILE) -f $(DOCKER_COMPOSE_OVERRIDE_FILE) up -d  qwen_api ollama api jupyter
-	docker compose -f $(DOCKER_COMPOSE_FILE) -f $(DOCKER_COMPOSE_OVERRIDE_FILE) up -d  qwen_api 
+	docker compose -f $(DOCKER_COMPOSE_FILE) -f $(DOCKER_COMPOSE_OVERRIDE_FILE) up -d  qwen_api ollama api jupyter
+#docker compose -f $(DOCKER_COMPOSE_FILE) -f $(DOCKER_COMPOSE_OVERRIDE_FILE) up -d  qwen_api 
 
 build:
 	@echo "Сборка Docker Compose с файлом $(DOCKER_DEPLOYMENT)"
-#docker compose -f $(DOCKER_COMPOSE_FILE) -f $(DOCKER_COMPOSE_OVERRIDE_FILE) build  qwen_api ollama api jupyter
-	docker compose -f $(DOCKER_COMPOSE_FILE) -f $(DOCKER_COMPOSE_OVERRIDE_FILE) build  qwen_api
+	docker compose -f $(DOCKER_COMPOSE_FILE) -f $(DOCKER_COMPOSE_OVERRIDE_FILE) build  qwen_api ollama api jupyter
+#docker compose -f $(DOCKER_COMPOSE_FILE) -f $(DOCKER_COMPOSE_OVERRIDE_FILE) build  qwen_api
 
 down:
 	@echo "Остановка Docker Compose с файлом $(DOCKER_DEPLOYMENT)"

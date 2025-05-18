@@ -56,3 +56,4 @@ data
 notebooks/results.tsv
 qwen/models
 qwen/unsloth_compiled_cache/
+notebooks/*.tsv
