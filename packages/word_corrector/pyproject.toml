@@ -1,0 +1,15 @@
+[project]
+name = "text_corrector"
+version = "0.1.1"
+description = "Корректировка текста для сканов ценников"
+authors = [{ name="pauchai", email="paul.khimyack@gmail.com" }]
+dependencies = [
+    "rapidfuzz"
+]
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]

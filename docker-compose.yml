@@ -24,6 +24,7 @@ services:
     volumes:
       - ./qwen:/qwen
       - ./data:/data
+      - ./packages:/packages
       - hf_cache:/root/.cache/huggingface/
 
 
@@ -44,6 +45,7 @@ services:
     volumes:
       - ./app:/app
       - ./data:/data
+      - ./packages:/packages
   jupyter:
       image: jupyter/scipy-notebook
       container_name: jupyter-container
@@ -52,19 +54,23 @@ services:
         - "8888:8888"
       volumes:
         - ./notebooks:/home/jovyan/work
-        - ./data:/home/jovyan/data
+        - ./data:/home/jovyan/work/data
+        - ./packages:/home/jovyan/work/packages
         #- ./_data:/home/jovayan/_data
         - ./requirements.txt:/tmp/requirements.txt
       networks:
         - ollama-net
-      user: root
+      user: 1000:100
       environment:
         - JUPYTER_ENABLE_LAB=yes
         - JUPYTER_TOKEN=bigdaddy
         - JUPYTER_USER=jovyan
       command: >
-        bash -c "echo 'Starting pip install' && pip install  -r /tmp/requirements.txt &&
-                echo 'Finished pip install' && start-notebook.sh --NotebookApp.token='${JUPYTER_TOKEN}'"
+        bash -c "
+          echo 'Starting pip install' &&
+          pip install -r /tmp/requirements.txt &&
+          echo 'Finished pip install' &&
+          start-notebook.sh --NotebookApp.token='${JUPYTER_TOKEN}'"
 
 volumes:
   ollama:

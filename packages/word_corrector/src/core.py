@@ -1,4 +1,3 @@
-
 import re
 from rapidfuzz import fuzz, process
 
@@ -79,6 +78,46 @@ class PhraseCorrectorNgrams:
         final_text = ' '.join(filter(None, corrected_tokens))
         return final_text, corrections_log
 
+class PhraseCorrectorByWords:
+    def __init__(self, words_file="words.csv",score_cutoff=70, min_len = 5):
+        with open(words_file, "r", encoding="utf-8") as f:
+            self.reference_words = [line.strip() for line in f]
+        self.score_cutoff = score_cutoff
+        self.min_len = min_len
+
+
+
+
+
+    def correct_text(self,text):
+        corrected_lines = []
+        corrections_log = []
+        for line_num, line in enumerate(text.strip().split('\n')):
+            corrected_words = []
+            words = re.split(r"[ \t\f\v.,!?;:()\"«»—–]+", line.upper().replace("Ё", "Е"))
+            words = list(filter(None, words))  # убираем пустые строки, если они есть
+        
+            for word_pos, word in enumerate(words):
+                if len(word) < self.min_len:
+                    corrected_words.append(word)
+                    continue
+                # Ищем наиболее близкое слово из словаря
+                match = process.extractOne(word, self.reference_words, scorer=fuzz.ratio, score_cutoff=self.score_cutoff)
+                #print(match)
+                corrected_word = match[0] if match else word
+                corrected_words.append(corrected_word)
+                if match and corrected_word != word:
+                    corrections_log.append({
+                        "line": line_num + 1,
+                        "position": word_pos + 1,
+                        "original": word,
+                        "corrected": corrected_word,
+                        "score": match[1]
+                    })
+            corrected_lines.append(' '.join(corrected_words))
+        return '\n'.join(corrected_lines), corrections_log
+    
+
 
 def correct_text(multiline_text, corrector):
     txt_lines = str(multiline_text).split("\n")
@@ -101,9 +140,6 @@ def correct_text(multiline_text, corrector):
     corrected_lines = corrected_lines + txt_other
     corrected_text = "\n".join(corrected_lines)
     return corrected_text, corrected_lines
-
-
-
 
 
 
