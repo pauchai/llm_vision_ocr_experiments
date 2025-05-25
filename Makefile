@@ -9,26 +9,27 @@ else
     DOCKER_COMPOSE_OVERRIDE_FILE := /dev/null
 endif
 
+.PHONY: up build down logs shell-ollama
+
+# Запуск всех или указанных сервисов
 up:
-	@echo "Запуск  $(DOCKER_DEPLOYMENT)"
+	@echo "Запуск Docker Compose ($(DOCKER_DEPLOYMENT))"
+	docker compose -f $(DOCKER_COMPOSE_FILE) -f $(DOCKER_COMPOSE_OVERRIDE_FILE) up -d $(filter-out $@,$(MAKECMDGOALS))
 
-	
-	docker compose -f $(DOCKER_COMPOSE_FILE) -f $(DOCKER_COMPOSE_OVERRIDE_FILE) up -d  qwen_api ollama api jupyter
-#docker compose -f $(DOCKER_COMPOSE_FILE) -f $(DOCKER_COMPOSE_OVERRIDE_FILE) up -d  qwen_api 
-
+# Сборка всех или указанных сервисов
 build:
-	@echo "Сборка Docker Compose с файлом $(DOCKER_DEPLOYMENT)"
-	docker compose -f $(DOCKER_COMPOSE_FILE) -f $(DOCKER_COMPOSE_OVERRIDE_FILE) build  qwen_api ollama api jupyter
-#docker compose -f $(DOCKER_COMPOSE_FILE) -f $(DOCKER_COMPOSE_OVERRIDE_FILE) build  qwen_api
+	@echo "Сборка Docker Compose ($(DOCKER_DEPLOYMENT))"
+	docker compose -f $(DOCKER_COMPOSE_FILE) -f $(DOCKER_COMPOSE_OVERRIDE_FILE) build $(filter-out $@,$(MAKECMDGOALS))
 
 down:
-	@echo "Остановка Docker Compose с файлом $(DOCKER_DEPLOYMENT)"
 	docker compose -f $(DOCKER_COMPOSE_FILE) -f $(DOCKER_COMPOSE_OVERRIDE_FILE) down
 
 logs:
-	@echo "Вывод логов Docker Compose с файлом $(DOCKER_DEPLOYMENT)"
 	docker compose -f $(DOCKER_COMPOSE_FILE) -f $(DOCKER_COMPOSE_OVERRIDE_FILE) logs
 
 shell-ollama:
-	@echo "Запуск оболочки в контейнере ollama $(DOCKER_DEPLOYMENT)"
 	docker compose -f $(DOCKER_COMPOSE_FILE) -f $(DOCKER_COMPOSE_OVERRIDE_FILE) exec ollama /bin/bash
+
+# Обработка псевдоаргументов make (чтобы не было ошибки "No rule to make target...")
+%:
+	@:

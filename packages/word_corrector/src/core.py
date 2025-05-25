@@ -94,7 +94,7 @@ class PhraseCorrectorByWords:
         corrections_log = []
         for line_num, line in enumerate(text.strip().split('\n')):
             corrected_words = []
-            words = re.split(r"[ \t\f\v.,!?;:()\"«»—–]+", line.upper().replace("Ё", "Е"))
+            words = re.split(r"[ \t\f\v]+", line.upper().replace("Ё", "Е"))
             words = list(filter(None, words))  # убираем пустые строки, если они есть
         
             for word_pos, word in enumerate(words):
