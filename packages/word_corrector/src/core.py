@@ -122,24 +122,28 @@ class PhraseCorrectorByWords:
 def correct_text(multiline_text, corrector):
     txt_lines = str(multiline_text).split("\n")
     txt_other = []
-    
+
     if len(txt_lines) > 2:
         txt_2lines = txt_lines[:2]
         txt_other = txt_lines[2:]
     else:
         txt_2lines = txt_lines
+
     corrected_lines = []
     corrected_logs = []
-    for txt in txt_2lines:     
+
+    for txt in txt_2lines:
         corrected_text = correct_units(str(txt))   
         corrected_text, corrected_log = corrector.correct_text(corrected_text)
-
         corrected_lines.append(corrected_text)
-        corrected_logs = corrected_logs + corrected_log
-     
-    corrected_lines = corrected_lines + txt_other
+        corrected_logs += corrected_log
+
+    # Преобразуем оставшиеся строки в uppercase
+    txt_other = [line.upper() for line in txt_other]
+
+    corrected_lines += txt_other
     corrected_text = "\n".join(corrected_lines)
-    return corrected_text, corrected_lines
+    return corrected_text, corrected_logs
 
 
 
