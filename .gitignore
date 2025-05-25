@@ -51,7 +51,7 @@ __pycache__/
 
 .gradio
 data
-notebooks/results.tsv
+notebooks/results*
 qwen/models
 qwen/unsloth_compiled_cache/
 notebooks/*.tsv
