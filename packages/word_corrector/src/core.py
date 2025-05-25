@@ -36,7 +36,7 @@ class PhraseCorrectorNgrams:
 
     def correct_text(self, text):
         text = text.upper().replace("Ё", "Е")
-        tokens = re.split(r"[ \n\t\f\v!?;:()\"«»]+", text)
+        tokens = re.split(r"[ \n\t\f\v]+", text)
         tokens = list(filter(None, tokens))
 
         corrected_tokens = tokens[:]
