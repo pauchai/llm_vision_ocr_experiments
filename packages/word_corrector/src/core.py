@@ -142,7 +142,11 @@ def correct_text(multiline_text, corrector):
     txt_other = [line.upper() for line in txt_other]
 
     corrected_lines += txt_other
-    corrected_text = "\n".join(corrected_lines)
+    # Убираем пустые строки и строки из пробелов
+    filtered = [line for line in corrected_lines if line.strip()]
+
+    # Собираем финальный текст
+    corrected_text = "\n".join(filtered)
     return corrected_text, corrected_logs
 
 
