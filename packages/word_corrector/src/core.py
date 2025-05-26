@@ -8,7 +8,7 @@ def correct_units(text:str):
         (r'(\d+)r\b', r'\1г'),
         (r'(\d+)(mn|мn|mл)\b', r'\1мл'),
         (r'(\d+)(mr|мr|mг)\b', r'\1мг'),
-        (r'(\d+)([yу]n|уn|уп)\b', r'\1уп'),
+        (r'(\d+)([yу]n|уn|уп|yп)\b', r'\1уп'),
         (r'(\d+)(kr|кr|kг)\b', r'\1кг'),
     ]
     for pattern, repl in rules:
