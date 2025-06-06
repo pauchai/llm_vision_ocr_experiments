@@ -24,11 +24,11 @@ RUN pip install torch torchvision torchaudio --index-url https://download.pytorc
 
 # 3. Установим необходимые Python-пакеты
 RUN pip install \
-    transformers \
-    peft \
-    accelerate \
-    unsloth \
-    sentencepiece \
+    transformers==4.51.3 \
+    peft==0.15.2 \
+    accelerate==1.6.0 \
+    unsloth==2025.4.7 \
+    sentencepiece==0.2.0 \
     bitsandbytes \
     matplotlib \
     scipy \
