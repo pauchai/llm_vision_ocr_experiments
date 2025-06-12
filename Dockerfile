@@ -16,5 +16,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY app/ /app/
 
 EXPOSE 7860
-ENTRYPOINT  ["python", "main.py"]
-#ENTRYPOINT ["tail", "-f", "/dev/null"]
+#ENTRYPOINT  ["python", "main.py"]
+ENTRYPOINT ["tail", "-f", "/dev/null"]

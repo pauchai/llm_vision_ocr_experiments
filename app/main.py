@@ -60,6 +60,7 @@ def chat_with_ollama(system_prompt, user_prompt, image, selected_model, temperat
         "max_tokens": 200
     }
 
+    result = ""
     start_time = time.time()  # Start timing
     response = requests.post(OLLAMA_CHAT_URL, json=ollama_args)
     elapsed_time = time.time() - start_time  # Calculate elapsed time
@@ -67,6 +68,7 @@ def chat_with_ollama(system_prompt, user_prompt, image, selected_model, temperat
     if response.status_code == 200:
         
         result = response.json()["message"]["content"]
+
         if correct_text_flag:
 
             # Создаем экземпляр класса PhraseCorrectorNgrams
@@ -75,14 +77,15 @@ def chat_with_ollama(system_prompt, user_prompt, image, selected_model, temperat
             result, corrections_log = correct_text(result, corrector)
             print("Корректированный текст:", result)  # Added print statement for corrected text
             print("Лог исправлений:", corrections_log)  # Added print statement for corrections log
-            return f"{result} (corrected)"
-        return f"{result}"
+            
     else:
-        return f"Ошибка: {response.status_code}\n{response.text}\n\nВремя запроса: {elapsed_time:.2f} секунд"
-
+        result =  f"Ошибка: {response.status_code}\n{response.text}\n\n"
+    
+    return result, f"{elapsed_time:.2f} секунд"
 
 # Получаем список моделей из Ollama при запуске
 available_models = get_available_models()
+
 
 iface = gr.Interface(
     fn=chat_with_ollama,
@@ -92,11 +95,14 @@ iface = gr.Interface(
         gr.Image(type="pil", label="Изображение (необязательно)"),
         gr.Dropdown(choices=available_models,  label="Выберите модель"),
         gr.Slider(minimum=0, maximum=1, step=0.05, value=0.2, label="Temperature"),
-        gr.Checkbox(label="Корректировать текст?", value=False)
+        gr.Checkbox(label="Корректировать текст?", value=False),
 
         
     ],
-    outputs="text",
+    outputs=[
+        gr.Textbox(label="Результат"),
+        gr.Textbox(label="Время обработки")
+    ],
     title="Чат с Ollama",
     description="Выберите модель Ollama, введите запрос и при необходимости прикрепите изображение",
    # show_flag=False  # Отключаем кнопку флага
