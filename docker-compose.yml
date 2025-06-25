@@ -5,6 +5,7 @@ services:
     restart: unless-stopped
     volumes:
       - ollama:/root/.ollama
+      - ./data:/data
     #  - /home/pauko/Downloads:/mnt/downloads
 
     ports:
@@ -35,6 +36,8 @@ services:
     build: .
     ports:
       - "7860:7860"
+    restart: unless-stopped
+
     environment:
       - OLLAMA_BASE_URL=http://ollama:11434/api/chat
       - OLLAMA_MODEL_URL=http://ollama:11434/api/tags

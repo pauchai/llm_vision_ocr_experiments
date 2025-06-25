@@ -31,6 +31,11 @@ docker compose exec ollama ollama pull gemma3:1b
 docker compose exec ollama ollama pull gemma3:4b
 docker compose exec ollama ollama pull gemma3:12b
 
+docker compose exec ollama ollama pull qwen2.5vl:3b
+docker compose exec ollama ollama pull qwen2.5vl:7b
+docker compose exec ollama ollama pull qwen2.5vl:32b
+
+
 ```
 после чего нужно сделать перезапуск контейнеров
 ```bash
@@ -121,4 +126,37 @@ sudo systemctl restart docker
 
 
 Эксперименты в колабе (нужен доступ)
-https://drive.google.com/drive/folders/1KRqRH0yMLRdaqg8wxcJYeLQ68vrfzhZj 
+https://drive.google.com/drive/folders/1H8Frt0yLJG-IAq3IfSAWMXC04OVLPX-b
+gdown --folder https://drive.google.com/drive/folders/1H8Frt0yLJG-IAq3IfSAWMXC04OVLPX-b
+
+
+https://drive.google.com/file/d/1EJp9CB-Fe_lphbNDmUvrAwsdSqaKxU6J/view?usp=sharing
+
+
+
+# Скачиваем файл с гугл диска
+
+сgdown --id Fe_lphbNDmUvrAwsdSqaKxU6J
+
+
+
+ollama create my_qwen2.5vl --file QwenModelFile
+
+
+
+--
+полезный репозиторий с работой qwen
+https://github.com/QwenLM/Qwen2.5-VL
+
+
+
+----
+!./llama-qwen2vl-cli -m ./model/Q8_0.gguf --mmproj ./model/model-vision.gguf -p "Describe this image." --image "./model/demo.png"
+----
+
+
+ModelFile
+FROM llama2
+
+PARAMETER quantized_model_file "Q8_0.gguf"
+PARAMETER mmproj "model-vision.gguf"
