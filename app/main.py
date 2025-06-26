@@ -53,10 +53,11 @@ def get_available_models():
         response = requests.get(OLLAMA_TAGS_URL)
         response.raise_for_status()
         tags = response.json().get("models", [])
-        return [model["name"] for model in tags]
+        model_names = [model["name"] for model in tags]
+        return sorted(model_names)
     except Exception as e:
         print(f"Ошибка при получении моделей: {e}")
-        return ["gemma3:1b"]  # дефолтная модель на случай ошибки
+        return ["gemma3:4b"]  # дефолтная модель на случай ошибки
 
 
 def encode_image(image: Image.Image) -> str:
