@@ -66,7 +66,7 @@ def encode_image(image: Image.Image) -> str:
     return base64.b64encode(buffered.getvalue()).decode("utf-8")
 
 
-def chat_with_ollama(system_prompt, user_prompt, image, selected_model, temperator=0.2, correct_text_flag=False):
+def chat_with_ollama(system_prompt, user_prompt, image, selected_model, temperator=0.2):
     messages = [
         {"role": "system", "content": system_prompt},
         {"role": "user", "content": user_prompt}
@@ -93,14 +93,14 @@ def chat_with_ollama(system_prompt, user_prompt, image, selected_model, temperat
         
         result = response.json()["message"]["content"]
 
-        if correct_text_flag:
+        #if correct_text_flag:
 
             # Создаем экземпляр класса PhraseCorrectorNgrams
 
             # Корректируем текст
-            result, corrections_log = correct_text(result, corrector)
-            print("Корректированный текст:", result)  # Added print statement for corrected text
-            print("Лог исправлений:", corrections_log)  # Added print statement for corrections log
+        #    result, corrections_log = correct_text(result, corrector)
+        #    print("Корректированный текст:", result)  # Added print statement for corrected text
+        #    print("Лог исправлений:", corrections_log)  # Added print statement for corrections log
             
     else:
         result =  f"Ошибка: {response.status_code}\n{response.text}\n\n"
@@ -121,7 +121,7 @@ with gr.Blocks() as demo:
             image = gr.Image(type="pil", label="Изображение (необязательно)")
             model = gr.Dropdown(choices=available_models, label="Выберите модель")
             temperature = gr.Slider(minimum=0, maximum=1, step=0.05, value=0.2, label="Temperature")
-            correct_text = gr.Checkbox(label="Корректировать текст?", value=False)
+            #correct_text = gr.Checkbox(label="Корректировать текст?", value=False)
             btn = gr.Button("Отправить")
         
         with gr.Column():
@@ -130,7 +130,7 @@ with gr.Blocks() as demo:
 
     btn.click(
         fn=chat_with_ollama,
-        inputs=[system_prompt, user_prompt, image, model, temperature, correct_text],
+        inputs=[system_prompt, user_prompt, image, model, temperature],
         outputs=[result, duration]
     )
 
