@@ -41,8 +41,8 @@ services:
     environment:
       - OLLAMA_BASE_URL=http://ollama:11434/api/chat
       - OLLAMA_MODEL_URL=http://ollama:11434/api/tags
-    depends_on:
-      - ollama
+#    depends_on:
+#      - ollama
     networks:
       - ollama-net
     volumes:
@@ -74,7 +74,18 @@ services:
           pip install -r /tmp/requirements.txt &&
           echo 'Finished pip install' &&
           start-notebook.sh --NotebookApp.token='${JUPYTER_TOKEN}'"
-
+  matching-api:
+    build: 
+      context: .
+      dockerfile: Dockerfile_matching
+    restart: unless-stopped
+    networks:
+      - ollama-net
+    volumes:
+      - ./matching:/app
+      - ./data:/data
+#   ports:
+#    - "7862:7860"
 volumes:
   ollama:
   hf_cache:

@@ -56,3 +56,5 @@ qwen/models
 qwen/unsloth_compiled_cache/
 notebooks/*.tsv
 notebooks/*.xlsx
+**/node_modules/
+**/package-lock.json
