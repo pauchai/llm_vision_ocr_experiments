@@ -84,8 +84,9 @@ services:
     volumes:
       - ./matching:/app
       - ./data:/data
-#   ports:
-#    - "7862:7860"
+    ports:
+      - "3000:3000"
+
 volumes:
   ollama:
   hf_cache:
