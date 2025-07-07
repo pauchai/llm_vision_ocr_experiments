@@ -61,4 +61,8 @@ export class MatchingService {
       score: matchResult.score
     };
   }
+
+  async getAllProducts(): Promise<Product[]> {
+    return await this.productRepository.getAllProducts();
+  }
 }
