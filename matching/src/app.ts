@@ -3,9 +3,11 @@ import { json } from 'body-parser';
 import { exampleRouter } from './routes/example.route';
 import { matchingRouter } from './routes/matching.route';
 import { setupSwagger } from './config/swagger';
+import cors from 'cors';
 
 export const app = express();
 
+app.use(cors())
 app.use(json());
 
 // Настройка Swagger документации
@@ -14,6 +16,7 @@ setupSwagger(app);
 // Роуты API
 app.use('/api/example', exampleRouter);
 app.use('/api/matching', matchingRouter);
+
 
 // Корневой роут с информацией об API
 app.get('/', (req, res) => {
