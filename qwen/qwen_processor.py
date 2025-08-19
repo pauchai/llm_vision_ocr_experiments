@@ -4,7 +4,7 @@ from pathlib import Path
 from unsloth import FastVisionModel
 from PIL import Image
 
-class QwenProcessor:
+class QwenUnslothProcessor:
     def __init__(self):
         self.base_data_dir = Path("/data")
         self.model_mapper = {
@@ -18,7 +18,7 @@ class QwenProcessor:
         self.loaded_models = {}
 
     def get_available_models(self):
-        return self.model_mapper.keys()
+        return list(self.model_mapper.keys())
 
     def unload_model(self, model):
         del model
