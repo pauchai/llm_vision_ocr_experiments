@@ -87,6 +87,23 @@ services:
     ports:
       - "3000:3000"
 
+  huggingface-ocr:
+    build: 
+      context: .
+      dockerfile: Dockerfile_huggingface
+    restart: unless-stopped
+    networks:
+      - ollama-net
+    volumes:
+      - ./huggingface_ocr:/huggingface_ocr
+      - ./data:/data
+      - ./packages:/packages
+      - hf_cache:/root/.cache/huggingface/
+    ports:
+      - "7862:7861"
+    env_file:
+      - .env
+
 volumes:
   ollama:
   hf_cache:

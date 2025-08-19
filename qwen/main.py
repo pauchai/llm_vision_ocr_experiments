@@ -1,7 +1,5 @@
 import gradio as gr
 from pathlib import Path
-from qwen_processor import QwenUnslothProcessor
-from qwen_huggingface_processor import QwenHuggingFaceProcessor
 from PIL import Image
 import time
 import psutil
@@ -15,9 +13,16 @@ USER_PROMPT = '''
 Пожалуйста, извлеките весь текст на изображении и ничего больше без комментариев. 
 '''
 
-# Инициализация процессоров
-unsloth_processor = QwenUnslothProcessor()
-hf_processor = QwenHuggingFaceProcessor()
+# Пытаемся импортировать Unsloth процессор
+unsloth_processor = None
+
+try:
+    from qwen_processor import QwenUnslothProcessor
+    unsloth_processor = QwenUnslothProcessor()
+    print("✅ Unsloth процессор загружен")
+except ImportError as e:
+    print(f"❌ Ошибка загрузки Unsloth процессора: {e}")
+    print("Убедитесь, что unsloth установлен корректно")
 
 def get_system_info():
     ram = psutil.virtual_memory()
@@ -37,34 +42,34 @@ def get_system_info():
 
     return f"{cpu_info}\n{ram_info}\n{gpu_info}"
 
-def chat_with_qwen(system_prompt, user_prompt, image: Image, selected_model, temperature=0.2, processor_type="Unsloth"):
+def chat_with_qwen(system_prompt, user_prompt, image: Image, selected_model, temperature=0.2):
     start_time = time.time()
     
     try:
-        if processor_type == "Unsloth":
-            processor = unsloth_processor
-        else:  # HuggingFace
-            processor = hf_processor
-            
-        result = processor.process(
-            system_prompt=system_prompt,
-            user_prompt=user_prompt,
-            image=image,
-            selected_model=selected_model,
-            temperature=temperature
-        )
+        if unsloth_processor is not None:
+            result = unsloth_processor.process(
+                system_prompt=system_prompt,
+                user_prompt=user_prompt,
+                image=image,
+                selected_model=selected_model,
+                temperature=temperature
+            )
+        else:
+            result = "Ошибка: Unsloth процессор недоступен. Проверьте установку unsloth."
     except Exception as e:
         result = f"Ошибка: {str(e)}"
     
     elapsed_time = time.time() - start_time
     return result, f"{elapsed_time:.2f} секунд"
 
-# Получаем списки моделей
-unsloth_models = unsloth_processor.get_available_models()
-hf_models = hf_processor.get_available_models()
+# Получаем список моделей
+if unsloth_processor is not None:
+    available_models = list(unsloth_processor.get_available_models())
+else:
+    available_models = []
 
 with gr.Blocks() as demo:
-    gr.Markdown("## Чат с Qwen моделями")
+    gr.Markdown("## Qwen Unsloth Сервис")
     sysinfo = gr.Markdown()
 
     with gr.Row():
@@ -73,37 +78,27 @@ with gr.Blocks() as demo:
             user_prompt = gr.Textbox(label="Ваш запрос", value=USER_PROMPT)
             image = gr.Image(type="pil", label="Изображение (необязательно)")
             
-            processor_type = gr.Radio(
-                choices=["Unsloth", "HuggingFace"], 
-                value="Unsloth", 
-                label="Тип процессора"
-            )
-            
             model = gr.Dropdown(
-                choices=unsloth_models, 
+                choices=available_models, 
+                value=available_models[0] if available_models else None,
                 label="Выберите модель"
             )
             
             temperature = gr.Slider(minimum=0, maximum=1, step=0.05, value=0.2, label="Temperature")
-            btn = gr.Button("Отправить")
+            btn = gr.Button("Отправить", interactive=len(available_models) > 0)
         
         with gr.Column():
             result = gr.Textbox(label="Результат")
             duration = gr.Textbox(label="Время обработки")
 
-    def update_models(processor_type):
-        if processor_type == "Unsloth":
-            return gr.Dropdown(choices=unsloth_models, value=unsloth_models[0] if unsloth_models else None)
-        else:
-            return gr.Dropdown(choices=hf_models, value=hf_models[0] if hf_models else None)
-    
-    processor_type.change(update_models, inputs=[processor_type], outputs=[model])
-
-    btn.click(
-        fn=chat_with_qwen,
-        inputs=[system_prompt, user_prompt, image, model, temperature, processor_type],
-        outputs=[result, duration]
-    )
+    if available_models:
+        btn.click(
+            fn=chat_with_qwen,
+            inputs=[system_prompt, user_prompt, image, model, temperature],
+            outputs=[result, duration]
+        )
+    else:
+        gr.Markdown("❌ Unsloth процессор недоступен. Проверьте установку.")
 
     demo.load(get_system_info, outputs=sysinfo)
 

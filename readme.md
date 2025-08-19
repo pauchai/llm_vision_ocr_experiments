@@ -1,22 +1,68 @@
 
+# LLM Vision OCR Experiments
+
+## Архитектура проекта
+
+Проект состоит из независимых сервисов для избежания конфликтов версий:
+
+### 1. Qwen Unsloth Сервис (порт 7861)
+- **Технологии**: Unsloth, оптимизированные transformers
+- **Специализация**: Быстрый inference с оптимизацией Unsloth
+- **Модели**: Qwen модели через FastVisionModel
+- **Папка**: `qwen/`
+
+### 2. HuggingFace OCR Сервис (порт 7862)  
+- **Технологии**: Современные transformers, чистая среда
+- **Специализация**: OCR модели, включая allenai/olmOCR-7B-0725
+- **Модели**: HuggingFace Vision-Language модели
+- **Папка**: `huggingface_ocr/`
+
+### 3. Дополнительные сервисы
+- **API Сервис**: порт 7860
+- **Jupyter Notebooks**: порт 8888
+- **Matching API**: порт 3000
+
 ## Краткая инструкция по установке
 
 Для начала выполнить инструкции из раздела # Nvidia GPU на хостинге
 
-
 Загружаем код
 ```bash
-mkdir  /app
+mkdir /app
 cd /app
 git clone https://github.com/pauchai/llm_vision_ocr_experiments.git .
+```
 
-``` 
+### Запуск сервисов
 
-Создаем контейнеры и запускаем их
+#### Все сервисы одновременно (рекомендуется)
 ```bash
+# Установить токен HuggingFace (для приватных моделей)
+export HF_TOKEN=your_huggingface_token
+
+# Создать .env файл
+echo "HF_TOKEN=your_huggingface_token" > .env
+
+# Запуск всех сервисов
 make build
 make up
+```
 
+**Доступные сервисы:**
+- Qwen Unsloth: http://localhost:7861 
+- HuggingFace OCR: http://localhost:7862
+- API: http://localhost:7860
+- Jupyter: http://localhost:8888
+- Matching API: http://localhost:3000
+
+#### Отдельный запуск (для разработки)
+```bash
+# Только Qwen Unsloth
+cd qwen && python main.py
+
+# Только HuggingFace OCR  
+export HF_TOKEN=your_token
+cd huggingface_ocr && python main.py
 ```
 
 

@@ -1,0 +1,50 @@
+FROM nvidia/cuda:12.1.1-cudnn8-devel-ubuntu22.04
+
+# 1. Установим базовые утилиты и Python
+RUN apt-get update && apt-get install -y \
+    git \
+    wget \
+    curl \
+    unzip \
+    python3.10 \
+    python3.10-venv \
+    python3-pip \
+    build-essential \
+    libglib2.0-0 \
+    libsm6 \
+    libxrender1 \
+    libxext6 \
+    && ln -sf python3.10 /usr/bin/python
+
+# 2. Обновим pip и установим torch
+RUN pip install --upgrade pip
+
+# PyTorch + CUDA
+RUN pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+
+# 3. Установим современные версии transformers и зависимости для HuggingFace
+RUN pip install \
+    transformers>=4.40.0 \
+    accelerate \
+    bitsandbytes \
+    gradio \
+    psutil \
+    pillow \
+    scipy \
+    scikit-learn \
+    opencv-python \
+    matplotlib \
+    notebook \
+    jupyterlab
+
+# 4. Рабочая директория
+WORKDIR /huggingface_ocr
+
+# 5. Копирование кода
+COPY huggingface_ocr /huggingface_ocr
+
+# 6. Установка дополнительных зависимостей
+RUN pip install -r requirements.txt
+
+# 7. Команда по умолчанию - запуск HuggingFace OCR сервиса
+CMD ["python", "main.py"]
