@@ -8,12 +8,7 @@ class QwenHuggingFaceProcessor:
     def __init__(self):
         self.base_data_dir = Path("/data")
         self.model_mapper = {
-            "Qwen2.5-VL-3B-Instruct": "Qwen/Qwen2.5-VL-3B-Instruct",
-            "Qwen2.5-VL-7B-Instruct": "Qwen/Qwen2.5-VL-7B-Instruct", 
-            "Qwen2-VL-7B-Instruct": "Qwen/Qwen2-VL-7B-Instruct",
-            "Qwen2_5-3b_finetuned_hf": str(self.base_data_dir / "models/qwen2_5_3b_outputs"),
-            "Qwen2_5-7b_finetuned_hf": str(self.base_data_dir / "models/qwen2_5_7b_outputs"),
-            "Qwen2-vl-7b_finetuned_hf": str(self.base_data_dir / "models/qwen2_VL_7b_hf")
+            "llenai/olmOCR-7B-0725":"llenai/olmOCR-7B-0725"
         }
         self.loaded_models = {}
 
