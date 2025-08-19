@@ -58,3 +58,6 @@ notebooks/*.tsv
 notebooks/*.xlsx
 **/node_modules/
 **/package-lock.json
+venv
+qwen/.Trash-0
+qwen/*.jpg
