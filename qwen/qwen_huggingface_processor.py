@@ -8,7 +8,7 @@ class QwenHuggingFaceProcessor:
     def __init__(self):
         self.base_data_dir = Path("/data")
         self.model_mapper = {
-            "llenai/olmOCR-7B-0725":"llenai/olmOCR-7B-0725"
+            "allenai/olmOCR-7B-0725": "allenai/olmOCR-7B-0725"
         }
         self.loaded_models = {}
 
